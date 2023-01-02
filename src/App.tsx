@@ -23,6 +23,8 @@ import {
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 
+import DrawerItems from './components/navigation/DrawerItems';
+
 import {
   Colors,
   DebugInstructions,
@@ -30,6 +32,8 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Options from './components/navigation/Options';
+import Preferences from './components/navigation/Preferences';
 
 const Section: React.FC<
   PropsWithChildren<{
@@ -61,7 +65,7 @@ const Section: React.FC<
   );
 };
 
-function HomeScreen({navigation}) {
+function HomeScreen({navigation}: any) {
   const isDarkMode = useColorScheme() === 'dark';
   // navigation.setOptions({headerShown: false});
   useEffect(() => {
@@ -112,8 +116,7 @@ function HomeScreen({navigation}) {
   );
 }
 
-function NotificationsScreen({navigation}) {
-  // navigation.setOptions({headerShown: false});
+function NotificationsScreen({navigation}: any) {
   useEffect(() => {
     navigation.setOptions({headerShown: false});
   }, []);
@@ -126,10 +129,28 @@ function NotificationsScreen({navigation}) {
 
 const Drawer = createDrawerNavigator();
 
+const tempFunc = () => {
+  console.log('Good');
+};
+
+const DrawerContent = () => {
+  return (
+    <DrawerItems
+      toggleAutoScroll={tempFunc}
+      toggleFocusMode={tempFunc}
+      toggleNavArrows={tempFunc}
+      toggleDarkMode={tempFunc}
+      isDarkTheme={false}
+    />
+  );
+};
+
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator
+        initialRouteName="Home"
+        drawerContent={() => <DrawerContent />}>
         <Drawer.Screen name="Home" component={HomeScreen} />
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       </Drawer.Navigator>
