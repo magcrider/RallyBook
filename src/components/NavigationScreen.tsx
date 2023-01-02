@@ -10,6 +10,7 @@ import {
 import {Button} from 'react-native-paper';
 import {IconButton, MD3Colors} from 'react-native-paper';
 import QuickAccess from './QuickAccess';
+import Measurements from './Measurements';
 
 const NavigationScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,7 +29,7 @@ const NavigationScreen = ({navigation}: any) => {
 
       <View style={styles.navWrapper}>
         <View style={styles.toolsWrapper}>
-          <View style={styles.measurementWrapper}></View>
+          <Measurements />
           <QuickAccess
             lockTouchHandler={testfn}
             autoScrollHandler={testfn}
@@ -44,30 +45,21 @@ const NavigationScreen = ({navigation}: any) => {
 const styles = StyleSheet.create({
   safeWrapper: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: 'yellow',
   },
   navWrapper: {
     flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: 'blue',
   },
   toolsWrapper: {
-    backgroundColor: 'red',
     height: '25%',
     maxHeight: 170,
     flexDirection: 'row',
   },
   measurementWrapper: {
     flex: 1,
-    backgroundColor: 'gray',
   },
   quickAccessWrapper: {
     backgroundColor: 'pink',
     paddingHorizontal: 5,
-    // width: 60,
     justifyContent: 'space-around',
   },
   pdfWrapper: {
