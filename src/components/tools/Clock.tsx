@@ -1,14 +1,28 @@
+import {useState, useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
+import dayjs from 'dayjs';
 
 const Clock = () => {
+  const [time, setTime] = useState(dayjs());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(dayjs());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <View style={styles.clockWrapper}>
       <View style={styles.label}>
         <Text variant="labelSmall">{`Time`}</Text>
       </View>
       <View style={styles.data}>
-        <Text variant="displayMedium">{`12:45:05`}</Text>
+        <Text variant="displayMedium">{time.format('HH:mm:ss')}</Text>
       </View>
     </View>
   );
