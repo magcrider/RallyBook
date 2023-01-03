@@ -1,29 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, View} from 'react-native';
 import {Button} from 'react-native-paper';
-import Pdf from 'react-native-pdf';
-const PDFBrowser = () => {
-  type iSource = {
-    uri?: string;
-    cache?: boolean;
-  };
+import Pdf, {Source} from 'react-native-pdf';
 
-  const [source, setSource] = useState<iSource>({});
-  //   const source = {
-  //     uri: 'https://rallyvultur.magc.co/PrimerVulturTourNoted.pdf',
-  //     cache: true,
-  //   };
+type PDFBrowserProps = {
+  pdf_uri?: string;
+  openFileHandler?: Function;
+};
 
-  //   useEffect(() => {
-  //     setSource({
-  //       uri: 'https://rallyvultur.magc.co/PrimerVulturTourNoted.pdf',
-  //       cache: true,
-  //     });
-  //   }, []);
+const PDFBrowser = ({pdf_uri, openFileHandler}: PDFBrowserProps) => {
+  const [source, setSource] = useState<Source>({
+    uri: pdf_uri,
+  });
+
+  useEffect(() => {
+    setSource({
+      uri: pdf_uri,
+      cache: true,
+    });
+  }, [pdf_uri]);
 
   return (
     <View style={styles.pdfWrapper}>
-      {Object.keys(source).length > 0 ? (
+      {pdf_uri !== '' ? (
         <Pdf
           trustAllCerts={false}
           source={source}
@@ -56,7 +55,7 @@ const PDFBrowser = () => {
           <Button
             icon="file-plus"
             mode="contained"
-            onPress={() => console.log('Pressed')}>
+            onPress={() => openFileHandler && openFileHandler()}>
             Selec PDF ...
           </Button>
         </View>

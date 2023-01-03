@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   useColorScheme,
@@ -10,11 +10,9 @@ import QuickAccess from './QuickAccess';
 import Measurements from './Measurements';
 import PDFBrowser from './PDFBrowser';
 
-const NavigationScreen = ({navigation}: any) => {
+const NavigationScreen = ({navigation, pdf_uri, myhandler}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
-  useEffect(() => {
-    navigation.setOptions({headerShown: false});
-  }, [navigation]);
+  console.log('PDF_URI', pdf_uri);
 
   const testfn = () => {
     console.log('THIs is good');
@@ -23,7 +21,6 @@ const NavigationScreen = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.safeWrapper}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      {/* <Button onPress={() => navigation.toggleDrawer()} title="Menu" /> */}
 
       <View style={styles.navWrapper}>
         <View style={styles.toolsWrapper}>
@@ -34,7 +31,7 @@ const NavigationScreen = ({navigation}: any) => {
             toggleMenuHandler={navigation.toggleDrawer}
           />
         </View>
-        <PDFBrowser />
+        <PDFBrowser pdf_uri={pdf_uri} openFileHandler={myhandler} />
       </View>
     </SafeAreaView>
   );
