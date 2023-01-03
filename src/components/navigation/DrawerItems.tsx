@@ -1,6 +1,5 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
-import Options from './Options';
 import Preferences from './Preferences';
 import {StyleSheet} from 'react-native';
 import {Drawer} from 'react-native-paper';
@@ -25,7 +24,7 @@ const DrawerItems = ({navigation}: DrawerItemsProps) => {
       <Drawer.Section title="Options">
         <Drawer.Item
           label="Select PDF ..."
-          icon="file-pdf-box"
+          icon="file-plus"
           onPress={() => navigation.navigate('Settings')}
         />
         <Drawer.Item

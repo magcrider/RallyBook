@@ -1,22 +1,20 @@
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   useColorScheme,
   SafeAreaView,
   StatusBar,
-  Text,
   StyleSheet,
 } from 'react-native';
-import {Button} from 'react-native-paper';
-import {IconButton, MD3Colors} from 'react-native-paper';
 import QuickAccess from './QuickAccess';
 import Measurements from './Measurements';
+import PDFBrowser from './PDFBrowser';
 
 const NavigationScreen = ({navigation}: any) => {
   const isDarkMode = useColorScheme() === 'dark';
   useEffect(() => {
     navigation.setOptions({headerShown: false});
-  }, []);
+  }, [navigation]);
 
   const testfn = () => {
     console.log('THIs is good');
@@ -36,7 +34,7 @@ const NavigationScreen = ({navigation}: any) => {
             toggleMenuHandler={navigation.toggleDrawer}
           />
         </View>
-        <View style={styles.pdfWrapper}></View>
+        <PDFBrowser />
       </View>
     </SafeAreaView>
   );
