@@ -14,6 +14,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import DrawerItems from './components/navigation/DrawerItems';
 import SettingsScreen from './components/SettingsScreen';
 import NavigationScreen from './components/NavigationScreen';
+import {useKeepAwake} from '@sayem314/react-native-keep-awake';
 
 import DocumentPicker, {
   DirectoryPickerResponse,
@@ -25,6 +26,7 @@ import DocumentPicker, {
 const Drawer = createDrawerNavigator();
 
 const App = () => {
+  useKeepAwake();
   const [result, setResult] = useState<
     Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
   >();
