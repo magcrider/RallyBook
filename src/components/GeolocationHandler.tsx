@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Linking,
@@ -16,9 +16,19 @@ import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 // import MapView from './MapView';
 import appConfig from '../../app.json';
-import {GeoLocationContext} from './NavigationScreen';
+// import {GeoLocationContext} from './NavigationScreen';
 
-const GeoHandler = () => {
+export type GeolocationHandlerProps = {
+  location: GeoPosition | null;
+  setLocation: React.Dispatch<
+    React.SetStateAction<Geolocation.GeoPosition | null>
+  >;
+};
+
+const GeolocationHandler = ({
+  location,
+  setLocation,
+}: GeolocationHandlerProps) => {
   const [forceLocation, setForceLocation] = useState(true);
   const [highAccuracy, setHighAccuracy] = useState(true);
   const [locationDialog, setLocationDialog] = useState(true);
@@ -26,8 +36,8 @@ const GeoHandler = () => {
   const [observing, setObserving] = useState(false);
   const [foregroundService, setForegroundService] = useState(false);
   const [useLocationManager, setUseLocationManager] = useState(false);
-  const [location, setLocation] = useState<GeoPosition | null>(null);
-  const {setGeoLocation} = useContext(GeoLocationContext);
+  // const [location, setLocation] = useState<GeoPosition | null>(null);
+  // const {setGeoLocation} = useContext(GeoLocationContext);
 
   const watchId = useRef<number | null>(null);
 
@@ -123,38 +133,38 @@ const GeoHandler = () => {
     return false;
   };
 
-  const getLocation = async () => {
-    const hasPermission = await hasLocationPermission();
+  // const getLocation = async () => {
+  //   const hasPermission = await hasLocationPermission();
 
-    if (!hasPermission) {
-      return;
-    }
+  //   if (!hasPermission) {
+  //     return;
+  //   }
 
-    Geolocation.getCurrentPosition(
-      position => {
-        setLocation(position);
-        console.log(position);
-      },
-      error => {
-        Alert.alert(`Code ${error.code}`, error.message);
-        setLocation(null);
-        console.log(error);
-      },
-      {
-        accuracy: {
-          android: 'high',
-          ios: 'best',
-        },
-        enableHighAccuracy: highAccuracy,
-        timeout: 15000,
-        maximumAge: 10000,
-        distanceFilter: 0,
-        forceRequestLocation: forceLocation,
-        forceLocationManager: useLocationManager,
-        showLocationDialog: locationDialog,
-      },
-    );
-  };
+  //   Geolocation.getCurrentPosition(
+  //     position => {
+  //       setLocation(position);
+  //       console.log(position);
+  //     },
+  //     error => {
+  //       Alert.alert(`Code ${error.code}`, error.message);
+  //       setLocation(null);
+  //       console.log(error);
+  //     },
+  //     {
+  //       accuracy: {
+  //         android: 'high',
+  //         ios: 'best',
+  //       },
+  //       enableHighAccuracy: highAccuracy,
+  //       timeout: 15000,
+  //       maximumAge: 10000,
+  //       distanceFilter: 0,
+  //       forceRequestLocation: forceLocation,
+  //       forceLocationManager: useLocationManager,
+  //       showLocationDialog: locationDialog,
+  //     },
+  //   );
+  // };
 
   const getLocationUpdates = async () => {
     const hasPermission = await hasLocationPermission();
@@ -175,7 +185,7 @@ const GeoHandler = () => {
         // console.log(position);
         // console.log('ARRGGG:', speed, position.coords.speed);
         // setSpeed(position.coords.speed);
-        setGeoLocation(position);
+        // setGeoLocation(position);
       },
       error => {
         setLocation(null);
@@ -328,4 +338,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GeoHandler;
+export default GeolocationHandler;
