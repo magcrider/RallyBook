@@ -1,18 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Dimensions, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {StyleSheet, View} from 'react-native';
+import {Button, FAB} from 'react-native-paper';
 import Pdf, {Source} from 'react-native-pdf';
 
 type PDFBrowserProps = {
   pdf_uri?: string;
   openFileHandler?: Function;
   blockTouch?: boolean;
+  increaseODO: Function;
+  decreaseODO: Function;
 };
 
 const PDFBrowser = ({
   pdf_uri,
   openFileHandler,
   blockTouch,
+  increaseODO,
+  decreaseODO,
 }: PDFBrowserProps) => {
   const [source, setSource] = useState<Source>({
     uri: pdf_uri,
@@ -58,6 +62,26 @@ const PDFBrowser = ({
             spacing={0}
             // maxScale={1}
           />
+          <FAB
+            icon="arrow-up-bold"
+            style={styles.fabScrollUp}
+            onPress={() => console.log('Pressed')}
+          />
+          <FAB
+            icon="arrow-down-bold"
+            style={styles.fabScrollDown}
+            onPress={() => console.log('Pressed')}
+          />
+          <FAB
+            icon="plus-thick"
+            style={styles.fabPlus}
+            onPress={() => increaseODO()}
+          />
+          <FAB
+            icon="minus-thick"
+            style={styles.fabMinus}
+            onPress={() => decreaseODO()}
+          />
         </View>
       ) : (
         <View style={styles.emptyWrapper}>
@@ -99,6 +123,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  fabPlus: {
+    position: 'absolute',
+    margin: 16,
+    // right: '50%',
+    // left: '50%',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    alignSelf: 'center',
+    bottom: 0,
+  },
+  fabMinus: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
+  fabScrollUp: {
+    position: 'absolute',
+    margin: 16,
+    left: 0,
+    top: 0,
+  },
+  fabScrollDown: {
+    position: 'absolute',
+    margin: 16,
+    left: 0,
+    bottom: 0,
   },
 });
 

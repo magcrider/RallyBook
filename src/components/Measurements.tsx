@@ -15,10 +15,12 @@ type MeasurementsProps = {
   showConfirmation: () => void;
   restartODO: boolean;
   setRestartODO: React.Dispatch<React.SetStateAction<boolean>>;
+  totalDistanceODO: number;
+  setTotalDistanceODO: React.Dispatch<React.SetStateAction<number>>;
 };
 
 let delta = 0;
-let totalDistance = 0;
+// let totalDistance = 0;
 let odoRef = {latitude: 4.852573, longitude: -74.0833168};
 
 const saveLocation = (location: {latitude: number; longitude: number}) => {
@@ -30,31 +32,36 @@ const Measurements = ({
   showConfirmation,
   restartODO,
   setRestartODO,
+  totalDistanceODO,
+  setTotalDistanceODO,
 }: MeasurementsProps) => {
   const [geoLocation, setGeoLocation] = useState<GeoPosition | null>(null);
-  if (geoLocation) {
-    let currentLocation = {
-      latitude: geoLocation?.coords.latitude!,
-      longitude: geoLocation?.coords.longitude!,
-    };
 
-    delta = getDistance(
-      odoRef,
-      {
+  useEffect(() => {
+    if (geoLocation) {
+      let currentLocation = {
         latitude: geoLocation?.coords.latitude!,
         longitude: geoLocation?.coords.longitude!,
-      },
-      1,
-    );
+      };
 
-    totalDistance = totalDistance + delta;
+      delta = getDistance(
+        odoRef,
+        {
+          latitude: geoLocation?.coords.latitude!,
+          longitude: geoLocation?.coords.longitude!,
+        },
+        1,
+      );
 
-    saveLocation(currentLocation);
-  }
+      setTotalDistanceODO(totalDistanceODO + delta);
+
+      saveLocation(currentLocation);
+    }
+  }, [geoLocation]);
+
   useEffect(() => {
     setRestartODO(false);
-    console.log('ODO value on reset:', totalDistance);
-    totalDistance = 0;
+    setTotalDistanceODO(0);
   }, [restartODO]);
   return (
     <View style={styles.measurementWrapper}>
@@ -63,7 +70,7 @@ const Measurements = ({
           style={[styles.info, styles.odoWrapper]}
           onPress={() => showConfirmation()}
           rippleColor="rgba(0, 0, 0, .32)">
-          <Odometer odovalue={(totalDistance / 1000).toFixed(2)} />
+          <Odometer odovalue={(totalDistanceODO / 1000).toFixed(2)} />
         </TouchableRipple>
         <View style={[styles.info, styles.capHeadingWrapper]}>
           <Compass heading={geoLocation?.coords.heading} />

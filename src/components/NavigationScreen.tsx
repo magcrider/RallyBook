@@ -1,13 +1,7 @@
-import React from 'react'; // ,{useState, createContext, useEffect}
-import {
-  View,
-  useColorScheme,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-} from 'react-native';
+import React, {useState} from 'react'; // ,{useState, createContext, useEffect}
+import {View, useColorScheme, StatusBar, StyleSheet} from 'react-native';
 import QuickAccess from './QuickAccess';
-import Measurements from './Measurements';
+import Measurements, {addODO} from './Measurements';
 import PDFBrowser from './PDFBrowser';
 import ConfirmationDialog from './utils/ConfirmationDialog';
 
@@ -18,11 +12,12 @@ const NavigationScreen = ({
   isGeoDebug,
 }: any) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [istouchEnabled, setIstouchEnabled] = React.useState(true);
+  const [istouchEnabled, setIstouchEnabled] = React.useState(false);
   const toggleNavTouch = () => {
     setIstouchEnabled(!istouchEnabled);
   };
   const [visible, setVisible] = React.useState(false);
+  const [totalDistance, setTotalDistance] = useState(0);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
   const [restartOdo, setRestartOdo] = React.useState(false);
@@ -30,6 +25,15 @@ const NavigationScreen = ({
   const resetOdomoter = () => {
     setRestartOdo(true);
     setVisible(false);
+  };
+
+  const increaseODO = () => {
+    setTotalDistance(totalDistance + 10);
+  };
+  const decreaseODO = () => {
+    if (totalDistance > 10) {
+      setTotalDistance(totalDistance - 10);
+    }
   };
 
   const testfn = () => {
@@ -46,6 +50,8 @@ const NavigationScreen = ({
             showConfirmation={() => showDialog()}
             restartODO={restartOdo}
             setRestartODO={setRestartOdo}
+            totalDistanceODO={totalDistance}
+            setTotalDistanceODO={setTotalDistance}
           />
           <QuickAccess
             lockTouchHandler={toggleNavTouch}
@@ -58,6 +64,8 @@ const NavigationScreen = ({
           pdf_uri={pdf_uri}
           openFileHandler={myhandler}
           blockTouch={istouchEnabled}
+          increaseODO={increaseODO}
+          decreaseODO={decreaseODO}
         />
       </View>
       <ConfirmationDialog
