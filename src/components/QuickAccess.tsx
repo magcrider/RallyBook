@@ -1,3 +1,4 @@
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {IconButton, MD3Colors} from 'react-native-paper';
 
@@ -5,33 +6,39 @@ type QuickAccessProps = {
   lockTouchHandler: () => void;
   autoScrollHandler: () => void;
   toggleMenuHandler: () => void;
+  isTouchEnabled: boolean;
 };
 
 const QuickAccess = ({
   lockTouchHandler,
   autoScrollHandler,
   toggleMenuHandler,
+  isTouchEnabled,
 }: QuickAccessProps) => {
   return (
     <View style={styles.quickAccessWrapper}>
       <IconButton
-        icon="cellphone-lock"
+        icon={isTouchEnabled ? 'cellphone' : 'cellphone-lock'}
         mode="contained-tonal"
         iconColor={MD3Colors.primary0}
+        containerColor={isTouchEnabled ? 'lightcoral' : 'darkseagreen'}
         size={20}
-        onPress={() => lockTouchHandler()}></IconButton>
+        onPress={() => lockTouchHandler()}
+      />
       <IconButton
         icon="arrow-vertical-lock"
         mode="contained-tonal"
         iconColor={MD3Colors.primary0}
         size={20}
-        onPress={() => autoScrollHandler()}></IconButton>
+        onPress={() => autoScrollHandler()}
+      />
       <IconButton
         icon="cog"
         mode="contained-tonal"
         iconColor={MD3Colors.primary0}
         size={20}
-        onPress={() => toggleMenuHandler()}></IconButton>
+        onPress={() => toggleMenuHandler()}
+      />
     </View>
   );
 };

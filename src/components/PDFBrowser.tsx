@@ -6,9 +6,14 @@ import Pdf, {Source} from 'react-native-pdf';
 type PDFBrowserProps = {
   pdf_uri?: string;
   openFileHandler?: Function;
+  blockTouch?: boolean;
 };
 
-const PDFBrowser = ({pdf_uri, openFileHandler}: PDFBrowserProps) => {
+const PDFBrowser = ({
+  pdf_uri,
+  openFileHandler,
+  blockTouch,
+}: PDFBrowserProps) => {
   const [source, setSource] = useState<Source>({
     uri: pdf_uri,
   });
@@ -23,33 +28,37 @@ const PDFBrowser = ({pdf_uri, openFileHandler}: PDFBrowserProps) => {
   return (
     <View style={styles.pdfWrapper}>
       {pdf_uri !== '' ? (
-        <Pdf
-          trustAllCerts={false}
-          source={source}
-          onLoadComplete={(
-            numberOfPages,
-            //  filePath
-          ) => {
-            console.log(`Number of pages: ${numberOfPages}`);
-            // lastPage = numberOfPages;
-          }}
-          onPageChanged={(
-            page,
-            // numberOfPages
-          ) => {
-            console.log(`Current page: ${page}`);
-            // pageNumber = page;
-          }}
-          onError={error => {
-            console.log(error);
-          }}
-          onPressLink={uri => {
-            console.log(`Link pressed: ${uri}`);
-          }}
-          style={styles.pdf}
-          spacing={0}
-          // maxScale={1}
-        />
+        <View
+          style={styles.pdfWrapper}
+          pointerEvents={!blockTouch ? 'auto' : 'none'}>
+          <Pdf
+            trustAllCerts={false}
+            source={source}
+            onLoadComplete={(
+              numberOfPages,
+              //  filePath
+            ) => {
+              console.log(`Number of pages: ${numberOfPages}`);
+              // lastPage = numberOfPages;
+            }}
+            onPageChanged={(
+              page,
+              // numberOfPages
+            ) => {
+              console.log(`Current page: ${page}`);
+              // pageNumber = page;
+            }}
+            onError={error => {
+              console.log(error);
+            }}
+            onPressLink={uri => {
+              console.log(`Link pressed: ${uri}`);
+            }}
+            style={styles.pdf}
+            spacing={0}
+            // maxScale={1}
+          />
+        </View>
       ) : (
         <View style={styles.emptyWrapper}>
           <Button
@@ -80,8 +89,8 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
   },
   pdfWrapper: {
     flex: 1,

@@ -18,6 +18,10 @@ const NavigationScreen = ({
   isGeoDebug,
 }: any) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [istouchEnabled, setIstouchEnabled] = React.useState(true);
+  const toggleNavTouch = () => {
+    setIstouchEnabled(!istouchEnabled);
+  };
   const [visible, setVisible] = React.useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
@@ -33,8 +37,8 @@ const NavigationScreen = ({
   };
 
   return (
-    <SafeAreaView style={styles.safeWrapper}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    <View style={styles.safeWrapper}>
+      <StatusBar hidden />
       <View style={styles.navWrapper}>
         <View style={styles.toolsWrapper}>
           <Measurements
@@ -44,19 +48,24 @@ const NavigationScreen = ({
             setRestartODO={setRestartOdo}
           />
           <QuickAccess
-            lockTouchHandler={testfn}
+            lockTouchHandler={toggleNavTouch}
+            isTouchEnabled={istouchEnabled}
             autoScrollHandler={testfn}
             toggleMenuHandler={navigation.toggleDrawer}
           />
         </View>
-        <PDFBrowser pdf_uri={pdf_uri} openFileHandler={myhandler} />
+        <PDFBrowser
+          pdf_uri={pdf_uri}
+          openFileHandler={myhandler}
+          blockTouch={istouchEnabled}
+        />
       </View>
       <ConfirmationDialog
         isVisible={visible}
         hideDialogHandler={hideDialog}
         confirmHandler={resetOdomoter}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 
