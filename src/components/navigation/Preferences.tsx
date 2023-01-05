@@ -1,13 +1,18 @@
-import * as React from 'react';
+import React, {useState, useContext} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Drawer, TouchableRipple, Switch} from 'react-native-paper';
 
+import {GeoDebugContext} from '../../App';
+
 const Preferences = ({isDarkTheme}: any) => {
-  const [active, setActive] = React.useState('');
-  const [isDark0, setIsDark0] = React.useState(false);
-  const [isDark1, setIsDark1] = React.useState(false);
-  const [isDark2, setIsDark2] = React.useState(false);
-  const [isDark3, setIsDark3] = React.useState(false);
+  const [active, setActive] = useState('');
+  const [isDark0, setIsDark0] = useState(false);
+  const [isDark1, setIsDark1] = useState(false);
+  const [isDark2, setIsDark2] = useState(false);
+  const [isDark3, setIsDark3] = useState(false);
+  // const [isGeoDebug, setIsGeoDebug] = useState(false);
+
+  const {isGeoDebug, setIsGeoDebug} = useContext(GeoDebugContext);
 
   const toggleTheme3 = () => {
     setIsDark3(!isDark3);
@@ -20,6 +25,9 @@ const Preferences = ({isDarkTheme}: any) => {
   };
   const toggleTheme = () => {
     setIsDark0(!isDark0);
+  };
+  const toggleGeoDebug = () => {
+    setIsGeoDebug(!isGeoDebug);
   };
 
   return (
@@ -53,6 +61,14 @@ const Preferences = ({isDarkTheme}: any) => {
           <Text>Dark mode</Text>
           <View pointerEvents="none">
             <Switch value={isDark0} />
+          </View>
+        </View>
+      </TouchableRipple>
+      <TouchableRipple onPress={toggleGeoDebug}>
+        <View style={[styles.preference, styles.v3Preference]}>
+          <Text>Debug Geo</Text>
+          <View pointerEvents="none">
+            <Switch value={isGeoDebug} />
           </View>
         </View>
       </TouchableRipple>

@@ -6,7 +6,7 @@
  *
  */
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, createContext} from 'react';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
@@ -24,6 +24,16 @@ import DocumentPicker, {
 } from 'react-native-document-picker';
 
 const Drawer = createDrawerNavigator();
+export type GeoDebugContextType = {
+  isGeoDebug: boolean;
+  // setSpeed: (c: number | null) => void;
+  setIsGeoDebug: any;
+};
+
+export const GeoDebugContext = createContext<GeoDebugContextType>({
+  isGeoDebug: false,
+  setIsGeoDebug: () => {},
+});
 
 const App = () => {
   useKeepAwake();
@@ -67,33 +77,45 @@ const App = () => {
     return <DrawerItems {...props} myhandler={openSingleFile} />;
   };
 
+  const [isGeoDebug, setIsGeoDebug] = useState(false);
+
   return (
-    <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="Navigation"
-        drawerContent={props => <DrawerContent {...props} />}>
-        <Drawer.Screen
-          name="Navigation"
-          options={{
-            headerShown: false,
-          }}>
-          {props => (
-            <NavigationScreen
-              {...props}
-              pdf_uri={selectedPDFuri}
-              myhandler={openSingleFile}
-            />
-          )}
-        </Drawer.Screen>
-        <Drawer.Screen
-          name="Settings"
-          component={SettingsScreen}
+    <GeoDebugContext.Provider value={{isGeoDebug, setIsGeoDebug}}>
+      <NavigationContainer>
+        <Drawer.Navigator
+          initialRouteName="Navigation"
+          drawerContent={props => <DrawerContent {...props} />}>
+          <Drawer.Screen
+            name="Navigation"
+            options={{
+              headerShown: false,
+            }}>
+            {props => (
+              <NavigationScreen
+                {...props}
+                pdf_uri={selectedPDFuri}
+                myhandler={openSingleFile}
+                isGeoDebug={isGeoDebug}
+              />
+            )}
+          </Drawer.Screen>
+          <Drawer.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          {/* <Drawer.Screen
+          name="Geo"
+          component={GeoHandler}
           options={{
             headerShown: false,
           }}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+        /> */}
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </GeoDebugContext.Provider>
   );
 };
 

@@ -28,6 +28,13 @@ const DrawerItems = ({navigation, myhandler}: DrawerItemsProps) => {
             navigation.navigate('Settings');
           }}
         />
+        {/* <Drawer.Item
+          label="Geo"
+          icon="cog"
+          onPress={() => {
+            navigation.navigate('Geo');
+          }}
+        /> */}
       </Drawer.Section>
       <Preferences />
     </DrawerContentScrollView>

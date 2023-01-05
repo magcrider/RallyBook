@@ -1,13 +1,17 @@
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
-const Speedometer = () => {
+type SpeedometerProps = {
+  speed: number | null | undefined;
+};
+const Speedometer = ({speed}: SpeedometerProps) => {
   return (
     <View style={styles.speedometerWrapper}>
       <View style={styles.label}>
         <Text variant="labelSmall">{`Speed (Km/h)`}</Text>
       </View>
       <View style={styles.data}>
-        <Text variant="displayMedium">{`106`}</Text>
+        <Text variant="displayMedium">{Math.floor(speed)}</Text>
       </View>
     </View>
   );

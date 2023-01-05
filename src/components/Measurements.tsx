@@ -1,10 +1,15 @@
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Clock from './tools/Clock';
 import Compass from './tools/Compass';
 import Odometer from './tools/Odometer';
 import Speedometer from './tools/Speedometer';
 
-const Measurements = () => {
+type MeasurementsProps = {
+  locationData: number | null | undefined;
+};
+
+const Measurements = ({locationData}: MeasurementsProps) => {
   return (
     <View style={styles.measurementWrapper}>
       <View style={[styles.top]}>
@@ -17,7 +22,7 @@ const Measurements = () => {
       </View>
       <View style={[styles.bottom]}>
         <View style={[styles.info, styles.speedWrapper]}>
-          <Speedometer />
+          <Speedometer speed={locationData} />
         </View>
         <View style={[styles.info, styles.timeWrapper]}>
           <Clock />
