@@ -8,10 +8,10 @@ const Speedometer = ({speed}: SpeedometerProps) => {
   return (
     <View style={styles.speedometerWrapper}>
       <View style={styles.label}>
-        <Text variant="labelSmall">{`Speed (Km/h)`}</Text>
+        <Text variant="labelSmall">{'Speed (Km/h)'}</Text>
       </View>
       <View style={styles.data}>
-        <Text variant="displayMedium">{Math.floor(speed)}</Text>
+        <Text variant="displayMedium">{Math.floor(speed!)}</Text>
       </View>
     </View>
   );

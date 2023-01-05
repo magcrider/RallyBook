@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   Alert,
-  Button,
   Linking,
   PermissionsAndroid,
   Platform,

@@ -7,17 +7,19 @@ import Speedometer from './tools/Speedometer';
 
 type MeasurementsProps = {
   locationData: number | null | undefined;
+  odovalue: number | null | undefined;
+  heading: number | null | undefined;
 };
 
-const Measurements = ({locationData}: MeasurementsProps) => {
+const Measurements = ({locationData, odovalue, heading}: MeasurementsProps) => {
   return (
     <View style={styles.measurementWrapper}>
       <View style={[styles.top]}>
         <View style={[styles.info, styles.odoWrapper]}>
-          <Odometer />
+          <Odometer odovalue={odovalue} />
         </View>
         <View style={[styles.info, styles.capHeadingWrapper]}>
-          <Compass />
+          <Compass heading={heading} />
         </View>
       </View>
       <View style={[styles.bottom]}>

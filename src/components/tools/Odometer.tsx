@@ -1,13 +1,14 @@
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-paper';
-const Odometer = () => {
+const Odometer = ({odovalue}: any) => {
   return (
     <View style={styles.odometerWrapper}>
       <View style={styles.label}>
-        <Text variant="labelSmall">{`ODO (Km)`}</Text>
+        <Text variant="labelSmall">{'ODO (Km)'}</Text>
       </View>
       <View style={styles.data}>
-        <Text variant="displayLarge">{`206.23`}</Text>
+        <Text variant="displayLarge">{odovalue}</Text>
       </View>
     </View>
   );
