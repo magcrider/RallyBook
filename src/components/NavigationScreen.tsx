@@ -11,8 +11,7 @@ const NavigationScreen = ({
   myhandler,
   isGeoDebug,
 }: any) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const [istouchEnabled, setIstouchEnabled] = React.useState(false);
+  const [istouchEnabled, setIstouchEnabled] = React.useState(true);
   const toggleNavTouch = () => {
     setIstouchEnabled(!istouchEnabled);
   };
@@ -63,7 +62,8 @@ const NavigationScreen = ({
         <PDFBrowser
           pdf_uri={pdf_uri}
           openFileHandler={myhandler}
-          blockTouch={istouchEnabled}
+          istouchEnabled={istouchEnabled}
+          isFocusModeEnabled={true}
           increaseODO={increaseODO}
           decreaseODO={decreaseODO}
         />
