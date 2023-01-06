@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, FAB} from 'react-native-paper';
 import Pdf, {Source} from 'react-native-pdf';
+import LinearGradient from 'react-native-linear-gradient';
 
 type PDFBrowserProps = {
   pdf_uri?: string;
   openFileHandler?: Function;
-  blockTouch?: boolean;
+  istouchEnabled?: boolean;
+  isFocusModeEnabled?: boolean;
   increaseODO: Function;
   decreaseODO: Function;
 };
@@ -14,7 +16,8 @@ type PDFBrowserProps = {
 const PDFBrowser = ({
   pdf_uri,
   openFileHandler,
-  blockTouch,
+  istouchEnabled,
+  isFocusModeEnabled,
   increaseODO,
   decreaseODO,
 }: PDFBrowserProps) => {
@@ -32,35 +35,63 @@ const PDFBrowser = ({
   return (
     <View style={styles.pdfWrapper}>
       {pdf_uri !== '' ? (
-        <View
-          style={styles.pdfWrapper}
-          pointerEvents={!blockTouch ? 'auto' : 'none'}>
-          <Pdf
-            trustAllCerts={false}
-            source={source}
-            onLoadComplete={(
-              numberOfPages,
-              //  filePath
-            ) => {
-              console.log(`Number of pages: ${numberOfPages}`);
-              // lastPage = numberOfPages;
-            }}
-            onPageChanged={(
-              page,
-              // numberOfPages
-            ) => {
-              console.log(`Current page: ${page}`);
-              // pageNumber = page;
-            }}
-            onError={error => {
-              console.log(error);
-            }}
-            onPressLink={uri => {
-              console.log(`Link pressed: ${uri}`);
-            }}
-            style={styles.pdf}
-            spacing={0}
-            // maxScale={1}
+        <>
+          <View
+            style={styles.pdfWrapper}
+            // pointerEvents={istouchEnabled ? 'auto' : 'none'}
+          >
+            <Pdf
+              trustAllCerts={false}
+              source={source}
+              onLoadComplete={(
+                numberOfPages,
+                //  filePath
+              ) => {
+                console.log(`Number of pages: ${numberOfPages}`);
+                // lastPage = numberOfPages;
+              }}
+              onPageChanged={(
+                page,
+                // numberOfPages
+              ) => {
+                console.log(`Current page: ${page}`);
+                // pageNumber = page;
+              }}
+              onError={error => {
+                console.log(error);
+              }}
+              onPressLink={uri => {
+                console.log(`Link pressed: ${uri}`);
+              }}
+              style={styles.pdf}
+              spacing={0}
+              // maxScale={1}
+            />
+          </View>
+          <LinearGradient
+            // colors={['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 1)']}
+            colors={[
+              '#000000ff',
+              '#000000bd',
+              '#0000003f',
+              '#00000000',
+              '#0000003f',
+              '#000000bd',
+              '#000000ff',
+            ]}
+            locations={[0, 0.2, 0.3, 0.5, 0.7, 0.8, 1]}
+            // colors={['red', 'black']}
+            style={[
+              styles.pdfFocus,
+              isFocusModeEnabled ? styles.showFocus : styles.hideFocus,
+            ]}
+            pointerEvents="none"
+          />
+          <View
+            style={[
+              styles.pdfShield,
+              istouchEnabled ? styles.hideShield : styles.showShield,
+            ]}
           />
           <FAB
             icon="arrow-up-bold"
@@ -82,7 +113,7 @@ const PDFBrowser = ({
             style={styles.fabMinus}
             onPress={() => decreaseODO()}
           />
-        </View>
+        </>
       ) : (
         <View style={styles.emptyWrapper}>
           <Button
@@ -124,13 +155,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  pdfShield: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: 'red',
+    opacity: 0.3,
+  },
+  hideShield: {
+    display: 'none',
+  },
+  showShield: {
+    display: 'flex',
+  },
+  pdfFocus: {
+    // flex: 1,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    // backgroundColor: 'blue',
+    // opacity: 0.3,
+  },
+  hideFocus: {
+    display: 'none',
+  },
+  showFocus: {
+    display: 'flex',
+  },
   fabPlus: {
     position: 'absolute',
     margin: 16,
-    // right: '50%',
-    // left: '50%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     alignSelf: 'center',
     bottom: 0,
   },

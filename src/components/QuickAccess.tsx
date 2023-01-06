@@ -18,10 +18,10 @@ const QuickAccess = ({
   return (
     <View style={styles.quickAccessWrapper}>
       <IconButton
-        icon={isTouchEnabled ? 'cellphone' : 'cellphone-lock'}
+        icon={isTouchEnabled ? 'cellphone-lock' : 'cellphone'}
         mode="contained-tonal"
         iconColor={MD3Colors.primary0}
-        containerColor={isTouchEnabled ? 'lightcoral' : 'darkseagreen'}
+        containerColor={isTouchEnabled ? 'darkseagreen' : 'lightcoral'}
         size={20}
         onPress={() => lockTouchHandler()}
       />
