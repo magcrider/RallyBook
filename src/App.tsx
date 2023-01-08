@@ -67,7 +67,9 @@ const App = () => {
         type: types.pdf,
       });
       setResult([pickerResult]);
-      setSelectedPDFuri(pickerResult.fileCopyUri);
+      console.log('THIs Is IT:', pickerResult);
+      // setSelectedPDFuri(pickerResult.fileCopyUri);
+      setSelectedPDFuri(pickerResult.uri);
     } catch (e) {
       handleError(e);
     }

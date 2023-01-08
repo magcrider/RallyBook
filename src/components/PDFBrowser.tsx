@@ -28,9 +28,10 @@ const PDFBrowser = ({
   });
 
   useEffect(() => {
+    console.log('PDF path:', pdf_uri);
     setSource({
       uri: pdf_uri,
-      cache: true,
+      cache: false,
     });
   }, [pdf_uri]);
 
