@@ -4,63 +4,54 @@ import {Drawer, TouchableRipple, Switch} from 'react-native-paper';
 
 import {GeoDebugContext} from '../../App';
 
-const Preferences = ({isDarkTheme}: any) => {
-  const [active, setActive] = useState('');
+const Preferences = ({
+  focusMode,
+  toggleFocusMode,
+  autoScroll,
+  toggleAutoScroll,
+  showButtons,
+  toggleShowButtons,
+  lockTouch,
+  toggleLockTouch,
+}: any) => {
   const [isDark0, setIsDark0] = useState(false);
-  const [isDark1, setIsDark1] = useState(false);
-  const [isDark2, setIsDark2] = useState(false);
-  const [isDark3, setIsDark3] = useState(false);
-  // const [isGeoDebug, setIsGeoDebug] = useState(false);
 
   const {isGeoDebug, setIsGeoDebug} = useContext(GeoDebugContext);
-
-  const toggleTheme3 = () => {
-    setIsDark3(!isDark3);
-  };
-  const toggleTheme2 = () => {
-    setIsDark2(!isDark2);
-  };
-  const toggleTheme1 = () => {
-    setIsDark1(!isDark1);
-  };
-  const toggleTheme = () => {
-    setIsDark0(!isDark0);
-  };
   const toggleGeoDebug = () => {
     setIsGeoDebug(!isGeoDebug);
   };
 
   return (
     <Drawer.Section title="Preferences">
-      <TouchableRipple onPress={toggleTheme3}>
+      <TouchableRipple onPress={toggleLockTouch}>
+        <View style={[styles.preference, styles.v3Preference]}>
+          <Text>Lock PDF touch</Text>
+          <View pointerEvents="none">
+            <Switch value={lockTouch} />
+          </View>
+        </View>
+      </TouchableRipple>
+      <TouchableRipple onPress={toggleAutoScroll}>
         <View style={[styles.preference, styles.v3Preference]}>
           <Text>Auto scroll</Text>
           <View pointerEvents="none">
-            <Switch value={isDark3} />
+            <Switch value={autoScroll} />
           </View>
         </View>
       </TouchableRipple>
-      <TouchableRipple onPress={toggleTheme2}>
+      <TouchableRipple onPress={toggleFocusMode}>
         <View style={[styles.preference, styles.v3Preference]}>
           <Text>Focus mode</Text>
           <View pointerEvents="none">
-            <Switch value={isDark2} />
+            <Switch value={focusMode} />
           </View>
         </View>
       </TouchableRipple>
-      <TouchableRipple onPress={toggleTheme1}>
+      <TouchableRipple onPress={toggleShowButtons}>
         <View style={[styles.preference, styles.v3Preference]}>
-          <Text>Show arrows</Text>
+          <Text>Show buttons</Text>
           <View pointerEvents="none">
-            <Switch value={isDark1} />
-          </View>
-        </View>
-      </TouchableRipple>
-      <TouchableRipple onPress={toggleTheme}>
-        <View style={[styles.preference, styles.v3Preference]}>
-          <Text>Dark mode</Text>
-          <View pointerEvents="none">
-            <Switch value={isDark0} />
+            <Switch value={showButtons} />
           </View>
         </View>
       </TouchableRipple>

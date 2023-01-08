@@ -27,7 +27,6 @@ import {Provider} from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 export type GeoDebugContextType = {
   isGeoDebug: boolean;
-  // setSpeed: (c: number | null) => void;
   setIsGeoDebug: any;
 };
 
@@ -74,12 +73,41 @@ const App = () => {
     }
   };
 
-  const DrawerContent = (props: any) => {
-    return <DrawerItems {...props} myhandler={openSingleFile} />;
+  const [isGeoDebug, setIsGeoDebug] = useState(false);
+  const [isFocusModeEnabled, setIsFocusModeEnabled] = React.useState(false);
+  const [isAutoScrollEnabled, setAutoScrollEnabled] = React.useState(false);
+  const [showButtons, setShowButtons] = React.useState(false);
+  const [lockTouch, setLockTouch] = React.useState(false);
+
+  const onFocusChange = () => {
+    setIsFocusModeEnabled(!isFocusModeEnabled);
+  };
+  const onAutoscrollChange = () => {
+    setAutoScrollEnabled(!isAutoScrollEnabled);
+  };
+  const onToggleShowButtonsHandler = () => {
+    setShowButtons(!showButtons);
+  };
+  const onToggleLocktouch = () => {
+    setLockTouch(!lockTouch);
   };
 
-  const [isGeoDebug, setIsGeoDebug] = useState(false);
-
+  const DrawerContent = (props: any) => {
+    return (
+      <DrawerItems
+        {...props}
+        openPDFHandler={openSingleFile}
+        focusMode={isFocusModeEnabled}
+        toggleFocusMode={onFocusChange}
+        autoScroll={isAutoScrollEnabled}
+        toggleAutoScroll={onAutoscrollChange}
+        showButtons={showButtons}
+        toggleShowButtons={onToggleShowButtonsHandler}
+        lockTouch={lockTouch}
+        toggleLockTouch={onToggleLocktouch}
+      />
+    );
+  };
   return (
     <Provider>
       <GeoDebugContext.Provider value={{isGeoDebug, setIsGeoDebug}}>
@@ -96,8 +124,14 @@ const App = () => {
                 <NavigationScreen
                   {...props}
                   pdf_uri={selectedPDFuri}
-                  myhandler={openSingleFile}
+                  openPDFHandler={openSingleFile}
                   isGeoDebug={isGeoDebug}
+                  isFocusMode={isFocusModeEnabled}
+                  isAutoScroll={isAutoScrollEnabled}
+                  autoScrollHandler={onAutoscrollChange}
+                  showButtons={showButtons}
+                  lockTouch={lockTouch}
+                  toggleLockTouch={onToggleLocktouch}
                 />
               )}
             </Drawer.Screen>

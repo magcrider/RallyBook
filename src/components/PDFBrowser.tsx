@@ -7,19 +7,21 @@ import LinearGradient from 'react-native-linear-gradient';
 type PDFBrowserProps = {
   pdf_uri?: string;
   openFileHandler?: Function;
-  istouchEnabled?: boolean;
+  lockTouch?: boolean;
   isFocusModeEnabled?: boolean;
   increaseODO: Function;
   decreaseODO: Function;
+  showButtons: boolean;
 };
 
 const PDFBrowser = ({
   pdf_uri,
   openFileHandler,
-  istouchEnabled,
+  lockTouch,
   isFocusModeEnabled,
   increaseODO,
   decreaseODO,
+  showButtons,
 }: PDFBrowserProps) => {
   const [source, setSource] = useState<Source>({
     uri: pdf_uri,
@@ -38,7 +40,7 @@ const PDFBrowser = ({
         <>
           <View
             style={styles.pdfWrapper}
-            // pointerEvents={istouchEnabled ? 'auto' : 'none'}
+            // pointerEvents={lockTouch ? 'auto' : 'none'}
           >
             <Pdf
               trustAllCerts={false}
@@ -83,34 +85,40 @@ const PDFBrowser = ({
             // colors={['red', 'black']}
             style={[
               styles.pdfFocus,
-              isFocusModeEnabled ? styles.showFocus : styles.hideFocus,
+              isFocusModeEnabled ? styles.show : styles.hide,
             ]}
             pointerEvents="none"
           />
           <View
             style={[
               styles.pdfShield,
-              istouchEnabled ? styles.hideShield : styles.showShield,
+              lockTouch ? styles.showShield : styles.hideShield,
             ]}
           />
           <FAB
             icon="arrow-up-bold"
-            style={styles.fabScrollUp}
+            style={[
+              styles.fabScrollUp,
+              showButtons ? styles.show : styles.hide,
+            ]}
             onPress={() => console.log('Pressed')}
           />
           <FAB
             icon="arrow-down-bold"
-            style={styles.fabScrollDown}
+            style={[
+              styles.fabScrollDown,
+              showButtons ? styles.show : styles.hide,
+            ]}
             onPress={() => console.log('Pressed')}
           />
           <FAB
             icon="plus-thick"
-            style={styles.fabPlus}
+            style={[styles.fabPlus, showButtons ? styles.show : styles.hide]}
             onPress={() => increaseODO()}
           />
           <FAB
             icon="minus-thick"
-            style={styles.fabMinus}
+            style={[styles.fabMinus, showButtons ? styles.show : styles.hide]}
             onPress={() => decreaseODO()}
           />
         </>
@@ -161,8 +169,8 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     left: 0,
-    backgroundColor: 'red',
-    opacity: 0.3,
+    backgroundColor: 'yellow',
+    opacity: 0.1,
   },
   hideShield: {
     display: 'none',
@@ -180,10 +188,10 @@ const styles = StyleSheet.create({
     // backgroundColor: 'blue',
     // opacity: 0.3,
   },
-  hideFocus: {
+  hide: {
     display: 'none',
   },
-  showFocus: {
+  show: {
     display: 'flex',
   },
   fabPlus: {

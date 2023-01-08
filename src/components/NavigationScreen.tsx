@@ -8,13 +8,17 @@ import ConfirmationDialog from './utils/ConfirmationDialog';
 const NavigationScreen = ({
   navigation,
   pdf_uri,
-  myhandler,
+  openPDFHandler,
   isGeoDebug,
+  isFocusMode,
+  isAutoScroll,
+  autoScrollHandler,
+  showButtons,
+  lockTouch,
+  toggleLockTouch,
 }: any) => {
-  const [istouchEnabled, setIstouchEnabled] = React.useState(true);
-  const toggleNavTouch = () => {
-    setIstouchEnabled(!istouchEnabled);
-  };
+  // const [istouchEnabled, setIstouchEnabled] = React.useState(true);
+
   const [visible, setVisible] = React.useState(false);
   const [totalDistance, setTotalDistance] = useState(0);
   const showDialog = () => setVisible(true);
@@ -35,10 +39,6 @@ const NavigationScreen = ({
     }
   };
 
-  const testfn = () => {
-    console.log('THIs is good');
-  };
-
   return (
     <View style={styles.safeWrapper}>
       <StatusBar hidden />
@@ -53,19 +53,21 @@ const NavigationScreen = ({
             setTotalDistanceODO={setTotalDistance}
           />
           <QuickAccess
-            lockTouchHandler={toggleNavTouch}
-            isTouchEnabled={istouchEnabled}
-            autoScrollHandler={testfn}
+            isAutoscrollEnabled={isAutoScroll}
+            autoScrollHandler={autoScrollHandler}
             toggleMenuHandler={navigation.toggleDrawer}
+            lockTouch={lockTouch}
+            toggleLockTouch={toggleLockTouch}
           />
         </View>
         <PDFBrowser
           pdf_uri={pdf_uri}
-          openFileHandler={myhandler}
-          istouchEnabled={istouchEnabled}
-          isFocusModeEnabled={true}
+          openFileHandler={openPDFHandler}
+          lockTouch={lockTouch}
+          isFocusModeEnabled={isFocusMode}
           increaseODO={increaseODO}
           decreaseODO={decreaseODO}
+          showButtons={showButtons}
         />
       </View>
       <ConfirmationDialog
@@ -88,6 +90,7 @@ const styles = StyleSheet.create({
     height: '25%',
     maxHeight: 170,
     flexDirection: 'row',
+    zIndex: 2,
   },
   measurementWrapper: {
     flex: 1,

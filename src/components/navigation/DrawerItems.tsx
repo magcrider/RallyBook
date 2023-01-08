@@ -6,10 +6,29 @@ import {Drawer} from 'react-native-paper';
 
 type DrawerItemsProps = {
   navigation: any;
-  myhandler: Function;
+  openPDFHandler: Function;
+  focusMode: boolean;
+  toggleFocusMode: Function;
+  autoScroll: boolean;
+  toggleAutoScroll: Function;
+  showButtons: boolean;
+  toggleShowButtons: Function;
+  lockTouch: boolean;
+  toggleLockTouch: Function;
 };
 
-const DrawerItems = ({navigation, myhandler}: DrawerItemsProps) => {
+const DrawerItems = ({
+  navigation,
+  openPDFHandler,
+  focusMode,
+  toggleFocusMode,
+  autoScroll,
+  toggleAutoScroll,
+  showButtons,
+  toggleShowButtons,
+  lockTouch,
+  toggleLockTouch,
+}: DrawerItemsProps) => {
   return (
     <DrawerContentScrollView style={[styles.drawerContent]}>
       <Drawer.Section title="Options">
@@ -18,7 +37,7 @@ const DrawerItems = ({navigation, myhandler}: DrawerItemsProps) => {
           icon="file-plus"
           onPress={() => {
             navigation.closeDrawer();
-            myhandler();
+            openPDFHandler();
           }}
         />
         <Drawer.Item
@@ -36,7 +55,16 @@ const DrawerItems = ({navigation, myhandler}: DrawerItemsProps) => {
           }}
         /> */}
       </Drawer.Section>
-      <Preferences />
+      <Preferences
+        focusMode={focusMode}
+        toggleFocusMode={toggleFocusMode}
+        autoScroll={autoScroll}
+        toggleAutoScroll={toggleAutoScroll}
+        showButtons={showButtons}
+        toggleShowButtons={toggleShowButtons}
+        lockTouch={lockTouch}
+        toggleLockTouch={toggleLockTouch}
+      />
     </DrawerContentScrollView>
   );
 };
