@@ -40,7 +40,7 @@ const App = () => {
   const [result, setResult] = useState<
     Array<DocumentPickerResponse> | DirectoryPickerResponse | undefined | null
   >();
-  const [selectedPDFuri, setSelectedPDFuri] = useState<string | null>('');
+  const [selectedPDFuri, setSelectedPDFuri] = useState<string>('');
 
   useEffect(() => {
     console.log(JSON.stringify(result, null, 2));
@@ -68,8 +68,8 @@ const App = () => {
       });
       setResult([pickerResult]);
       console.log('THIs Is IT:', pickerResult);
-      // setSelectedPDFuri(pickerResult.fileCopyUri);
-      setSelectedPDFuri(pickerResult.uri);
+      setSelectedPDFuri(pickerResult.fileCopyUri!);
+      // setSelectedPDFuri(pickerResult.uri);
     } catch (e) {
       handleError(e);
     }

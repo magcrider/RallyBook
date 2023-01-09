@@ -1,17 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Button, FAB} from 'react-native-paper';
-import Pdf, {Source} from 'react-native-pdf';
+import {Button, FAB, Text} from 'react-native-paper';
+// import Pdf, {Source} from 'react-native-pdf';
 import LinearGradient from 'react-native-linear-gradient';
+import {PageMeasurement, Pdf, PdfRef} from 'react-native-pdf-light';
 
 type PDFBrowserProps = {
-  pdf_uri?: string;
+  pdf_uri: string;
   openFileHandler?: Function;
   lockTouch?: boolean;
   isFocusModeEnabled?: boolean;
   increaseODO: Function;
   decreaseODO: Function;
   showButtons: boolean;
+  pdfWidth?: number;
 };
 
 const PDFBrowser = ({
@@ -22,28 +24,44 @@ const PDFBrowser = ({
   increaseODO,
   decreaseODO,
   showButtons,
+  pdfWidth,
 }: PDFBrowserProps) => {
-  const [source, setSource] = useState<Source>({
-    uri: pdf_uri,
-  });
+  // const [source, setSource] = useState<Source>({
+  const [source, setSource] = useState<string>(pdf_uri);
+  const [pageOffset, setPageOffset] = useState(0);
+  const referenceToPDF = useRef<PdfRef>(null);
+  const [pdfHeight, setPDFHeight] = useState(0);
+
+  const STEP = 100;
 
   useEffect(() => {
     console.log('PDF path:', pdf_uri);
-    setSource({
-      uri: pdf_uri,
-      cache: false,
-    });
+    setSource(pdf_uri);
   }, [pdf_uri]);
+  useEffect(() => {
+    referenceToPDF.current?.scrollToOffset(pageOffset);
+  }, [pageOffset]);
+
+  const onMeasurePages = (measurements: PageMeasurement[]): void => {
+    console.log('Measurements:', measurements);
+    measurements?.length &&
+      setPDFHeight(measurements[measurements.length - 1].offset);
+  };
 
   return (
     <View style={styles.pdfWrapper}>
       {pdf_uri !== '' ? (
         <>
-          <View
-            style={styles.pdfWrapper}
-            // pointerEvents={lockTouch ? 'auto' : 'none'}
-          >
+          <View style={[styles.pdfItself, pdfWidth ? {width: pdfWidth} : {}]}>
             <Pdf
+              // annotation={annotation}
+              onError={console.warn}
+              onLoadComplete={console.log}
+              source={source}
+              ref={referenceToPDF}
+              onMeasurePages={onMeasurePages}
+            />
+            {/* <Pdf
               trustAllCerts={false}
               source={source}
               onLoadComplete={(
@@ -69,7 +87,7 @@ const PDFBrowser = ({
               style={styles.pdf}
               spacing={0}
               // maxScale={1}
-            />
+            /> */}
           </View>
           <LinearGradient
             // colors={['rgba(255, 255, 255, 0.5)', 'rgba(255, 255, 255, 1)']}
@@ -102,7 +120,12 @@ const PDFBrowser = ({
               styles.fabScrollUp,
               showButtons ? styles.show : styles.hide,
             ]}
-            onPress={() => console.log('Pressed')}
+            onPress={() => {
+              if (pageOffset === 0) {
+                return;
+              }
+              setPageOffset(pageOffset - STEP);
+            }}
           />
           <FAB
             icon="arrow-down-bold"
@@ -110,7 +133,13 @@ const PDFBrowser = ({
               styles.fabScrollDown,
               showButtons ? styles.show : styles.hide,
             ]}
-            onPress={() => console.log('Pressed')}
+            onPress={() => {
+              if (pageOffset > pdfHeight) {
+                return;
+              }
+              setPageOffset(pageOffset + STEP);
+              console.log('Down', pageOffset);
+            }}
           />
           <FAB
             icon="plus-thick"
@@ -153,11 +182,15 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
-    // width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height,
   },
   pdfWrapper: {
     flex: 1,
+    alignItems: 'center',
+  },
+  pdfItself: {
+    // width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   emptyWrapper: {
     flex: 1,

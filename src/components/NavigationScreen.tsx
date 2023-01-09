@@ -68,6 +68,7 @@ const NavigationScreen = ({
           increaseODO={increaseODO}
           decreaseODO={decreaseODO}
           showButtons={showButtons}
+          pdfWidth={200}
         />
       </View>
       <ConfirmationDialog
