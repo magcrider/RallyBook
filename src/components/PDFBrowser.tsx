@@ -52,7 +52,11 @@ const PDFBrowser = ({
     <View style={styles.pdfWrapper}>
       {pdf_uri !== '' ? (
         <>
-          <View style={[styles.pdfItself, pdfWidth ? {width: pdfWidth} : {}]}>
+          <View
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={[styles.pdfItself, {width: pdfWidth ? pdfWidth : '100%'}]}
+            // pointerEvents={lockTouch ? 'auto' : 'none'}
+          >
             <Pdf
               // annotation={annotation}
               onError={console.warn}
@@ -182,15 +186,15 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
+    // width: Dimensions.get('window').width,
+    // height: Dimensions.get('window').height,
   },
   pdfWrapper: {
     flex: 1,
     alignItems: 'center',
   },
   pdfItself: {
-    // width: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
   },
   emptyWrapper: {
     flex: 1,

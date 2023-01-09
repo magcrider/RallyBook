@@ -1,9 +1,10 @@
 import React, {useState} from 'react'; // ,{useState, createContext, useEffect}
 import {View, useColorScheme, StatusBar, StyleSheet} from 'react-native';
 import QuickAccess from './QuickAccess';
-import Measurements, {addODO} from './Measurements';
+import Measurements from './Measurements';
 import PDFBrowser from './PDFBrowser';
 import ConfirmationDialog from './utils/ConfirmationDialog';
+import ZoomModal from './utils/ZoomModal';
 
 const NavigationScreen = ({
   navigation,
@@ -16,6 +17,9 @@ const NavigationScreen = ({
   showButtons,
   lockTouch,
   toggleLockTouch,
+  currentZoom,
+  hideModalHandler,
+  isZoomModalVisible,
 }: any) => {
   // const [istouchEnabled, setIstouchEnabled] = React.useState(true);
 
@@ -38,6 +42,13 @@ const NavigationScreen = ({
       setTotalDistance(totalDistance - 10);
     }
   };
+  // useEffect(() => {
+  //   console.log('ZOOM MODAL:', isZoomModalVisible);
+  //   if (isZoomModalVisible) {
+  //     hideDialog();
+  //   }
+  //   console.log('visible:', visible);
+  // }, [isZoomModalVisible]);
 
   return (
     <View style={styles.safeWrapper}>
@@ -68,13 +79,18 @@ const NavigationScreen = ({
           increaseODO={increaseODO}
           decreaseODO={decreaseODO}
           showButtons={showButtons}
-          pdfWidth={200}
+          pdfWidth={300}
         />
       </View>
       <ConfirmationDialog
         isVisible={visible}
         hideDialogHandler={hideDialog}
         confirmHandler={resetOdomoter}
+      />
+      <ZoomModal
+        currentZoom={currentZoom}
+        hideModalHandler={hideModalHandler}
+        isVisible={isZoomModalVisible}
       />
     </View>
   );

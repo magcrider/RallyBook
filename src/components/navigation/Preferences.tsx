@@ -5,6 +5,7 @@ import {Drawer, TouchableRipple, Switch} from 'react-native-paper';
 import {GeoDebugContext} from '../../App';
 
 const Preferences = ({
+  navigation,
   focusMode,
   toggleFocusMode,
   autoScroll,
@@ -13,6 +14,7 @@ const Preferences = ({
   toggleShowButtons,
   lockTouch,
   toggleLockTouch,
+  onZoomHandler,
 }: any) => {
   const [isDark0, setIsDark0] = useState(false);
 
@@ -23,6 +25,15 @@ const Preferences = ({
 
   return (
     <Drawer.Section title="Preferences">
+      <Drawer.Item
+        label="Set PDF Zoom"
+        icon="magnify"
+        onPress={() => {
+          navigation.closeDrawer();
+          onZoomHandler();
+          console.log('Setting zoom');
+        }}
+      />
       <TouchableRipple onPress={toggleLockTouch}>
         <View style={[styles.preference, styles.v3Preference]}>
           <Text>Lock PDF touch</Text>

@@ -23,6 +23,7 @@ import DocumentPicker, {
   types,
 } from 'react-native-document-picker';
 import {Provider} from 'react-native-paper';
+import ZoomModal from './components/utils/ZoomModal';
 
 const Drawer = createDrawerNavigator();
 export type GeoDebugContextType = {
@@ -80,6 +81,8 @@ const App = () => {
   const [isAutoScrollEnabled, setAutoScrollEnabled] = React.useState(false);
   const [showButtons, setShowButtons] = React.useState(false);
   const [lockTouch, setLockTouch] = React.useState(false);
+  const [isZoomModalVisible, setIsZoomModalVisible] = React.useState(false);
+  const [currentZoom, setCurrentZoom] = React.useState(300);
 
   const onFocusChange = () => {
     setIsFocusModeEnabled(!isFocusModeEnabled);
@@ -93,6 +96,8 @@ const App = () => {
   const onToggleLocktouch = () => {
     setLockTouch(!lockTouch);
   };
+  const showModal = () => setIsZoomModalVisible(true);
+  const hideModal = () => setIsZoomModalVisible(false);
 
   const DrawerContent = (props: any) => {
     return (
@@ -107,6 +112,7 @@ const App = () => {
         toggleShowButtons={onToggleShowButtonsHandler}
         lockTouch={lockTouch}
         toggleLockTouch={onToggleLocktouch}
+        onZoomHandler={showModal}
       />
     );
   };
@@ -134,6 +140,9 @@ const App = () => {
                   showButtons={showButtons}
                   lockTouch={lockTouch}
                   toggleLockTouch={onToggleLocktouch}
+                  currentZoom={currentZoom}
+                  hideModalHandler={hideModal}
+                  isZoomModalVisible={isZoomModalVisible}
                 />
               )}
             </Drawer.Screen>

@@ -15,6 +15,7 @@ type DrawerItemsProps = {
   toggleShowButtons: Function;
   lockTouch: boolean;
   toggleLockTouch: Function;
+  onZoomHandler: Function;
 };
 
 const DrawerItems = ({
@@ -28,6 +29,7 @@ const DrawerItems = ({
   toggleShowButtons,
   lockTouch,
   toggleLockTouch,
+  onZoomHandler,
 }: DrawerItemsProps) => {
   return (
     <DrawerContentScrollView style={[styles.drawerContent]}>
@@ -56,6 +58,7 @@ const DrawerItems = ({
         /> */}
       </Drawer.Section>
       <Preferences
+        navigation={navigation}
         focusMode={focusMode}
         toggleFocusMode={toggleFocusMode}
         autoScroll={autoScroll}
@@ -64,6 +67,7 @@ const DrawerItems = ({
         toggleShowButtons={toggleShowButtons}
         lockTouch={lockTouch}
         toggleLockTouch={toggleLockTouch}
+        onZoomHandler={onZoomHandler}
       />
     </DrawerContentScrollView>
   );
