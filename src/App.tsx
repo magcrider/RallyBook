@@ -82,7 +82,7 @@ const App = () => {
   const [showButtons, setShowButtons] = React.useState(false);
   const [lockTouch, setLockTouch] = React.useState(false);
   const [isZoomModalVisible, setIsZoomModalVisible] = React.useState(false);
-  const [currentZoom, setCurrentZoom] = React.useState(300);
+  const [currentZoom, setCurrentZoom] = React.useState<number>(300);
 
   const onFocusChange = () => {
     setIsFocusModeEnabled(!isFocusModeEnabled);
@@ -141,6 +141,7 @@ const App = () => {
                   lockTouch={lockTouch}
                   toggleLockTouch={onToggleLocktouch}
                   currentZoom={currentZoom}
+                  setCurrentZoom={setCurrentZoom}
                   hideModalHandler={hideModal}
                   isZoomModalVisible={isZoomModalVisible}
                 />

@@ -43,7 +43,7 @@ const PDFBrowser = ({
   }, [pageOffset]);
 
   const onMeasurePages = (measurements: PageMeasurement[]): void => {
-    console.log('Measurements:', measurements);
+    // console.log('Measurements:', measurements);
     measurements?.length &&
       setPDFHeight(measurements[measurements.length - 1].offset);
   };

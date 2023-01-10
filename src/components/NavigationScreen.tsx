@@ -18,6 +18,7 @@ const NavigationScreen = ({
   lockTouch,
   toggleLockTouch,
   currentZoom,
+  setCurrentZoom,
   hideModalHandler,
   isZoomModalVisible,
 }: any) => {
@@ -79,7 +80,7 @@ const NavigationScreen = ({
           increaseODO={increaseODO}
           decreaseODO={decreaseODO}
           showButtons={showButtons}
-          pdfWidth={300}
+          pdfWidth={currentZoom}
         />
       </View>
       <ConfirmationDialog
@@ -89,6 +90,7 @@ const NavigationScreen = ({
       />
       <ZoomModal
         currentZoom={currentZoom}
+        setCurrentZoom={setCurrentZoom}
         hideModalHandler={hideModalHandler}
         isVisible={isZoomModalVisible}
       />
